@@ -3,6 +3,8 @@ from PyQt4.QtGui import *
 from Forms.MainForm import *
 from Widgets.ClassListWidget import *
 from Widgets.FinancialInstrumentListWidget import *
+from Widgets.CreateFinancialInstrumentWidget import *
+from Widgets.AllocateFinancialInstrumentWidget import *
 
 class MyForm(QtGui.QMainWindow):
     def __init__(self, parent=None):
@@ -12,6 +14,8 @@ class MyForm(QtGui.QMainWindow):
 
         QtCore.QObject.connect(self.ui.actionClass_List, QtCore.SIGNAL('triggered()'), self.showClasses)
         QtCore.QObject.connect(self.ui.actionInstrument_List, QtCore.SIGNAL('triggered()'), self.showInstruments)
+        QtCore.QObject.connect(self.ui.actionCreateInstrument, QtCore.SIGNAL('triggered()'), self.createInstruments)
+        QtCore.QObject.connect(self.ui.actionAllocateToPortfolio, QtCore.SIGNAL('triggered()'), self.allocateInstruments)
 
         QtCore.QObject.connect(self.ui.actionCascade, QtCore.SIGNAL('triggered()'), self.ui.mdiArea.cascadeSubWindows)
         QtCore.QObject.connect(self.ui.actionTile, QtCore.SIGNAL('triggered()'), self.ui.mdiArea.tileSubWindows)
@@ -24,7 +28,13 @@ class MyForm(QtGui.QMainWindow):
         ClassListWidget().getDialog(self.ui.mdiArea).show()
 
     def showInstruments(self):
-        FinancialInstrumentListWidget().getDialog(self.ui.mdiArea).sho()
+        FinancialInstrumentListWidget().getDialog(self.ui.mdiArea).show()
+
+    def createInstruments(self):
+        CreateFinancialInstrumentWidget().getDialog(self.ui.mdiArea).show()
+    
+    def allocateInstruments(self):
+        AllocateFinancialInstrumentWidget().getDialog(self.ui.mdiArea).show()
 
 
 if __name__ == "__main__":

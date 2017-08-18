@@ -5,8 +5,7 @@
     <ProjectGuid>35ad89b4-796f-47c0-8169-2f35c5701d67</ProjectGuid>
     <ProjectHome>.</ProjectHome>
     <StartupFile>PortfolioManager.py</StartupFile>
-    <SearchPath>
-    </SearchPath>
+    <SearchPath>..\PortfolioManager</SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <Name>PortfolioManager</Name>
@@ -21,22 +20,30 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Data\DataLayer.py" />
+    <Compile Include="Widgets\AllocateFinancialInstrument.py" />
+    <Compile Include="Widgets\AllocateFinancialInstrumentWidget.py" />
     <Compile Include="Widgets\ClassListWidget.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="UI\Widgets\AllocateFinancialInstrumentWidget.py" />
-    <Compile Include="UI\Widgets\ClassList.py" />
-    <Compile Include="UI\Widgets\CreateFinancialInstrumentWidget.py" />
-    <Compile Include="UI\Widgets\FinacialInstrumentListWidget.py" />
     <Compile Include="Forms\MainForm.py" />
     <Compile Include="PortfolioManager.py" />
     <Compile Include="Widgets\ClassList.py" />
+    <Compile Include="Widgets\CreateFinancialInstrument.py" />
+    <Compile Include="Widgets\CreateFinancialInstrumentWidget.py" />
+    <Compile Include="Widgets\FinancialInstrumentList.py" />
+    <Compile Include="Widgets\FinancialInstrumentListWidget.py" />
+    <Compile Include="Widgets\test.py" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Data\" />
+    <Folder Include="Data\__pycache__\" />
     <Folder Include="Forms\" />
     <Folder Include="Widgets\" />
     <Folder Include="Widgets\" />
-    <Folder Include="Classes\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Data\__pycache__\DataLayer.cpython-34.pyc" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

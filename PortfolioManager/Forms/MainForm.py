@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'MainForm.ui'
+# Form implementation generated from reading ui file '..\..\..\Screens\MainForm.ui'
 #
 # Created by: PyQt4 UI code generator 4.11.4
 #
@@ -65,11 +65,18 @@ class Ui_MainWindow(object):
         self.actionClose_All.setObjectName(_fromUtf8("actionClose_All"))
         self.actionClose_Current = QtGui.QAction(MainWindow)
         self.actionClose_Current.setObjectName(_fromUtf8("actionClose_Current"))
+        self.actionCreateInstrument = QtGui.QAction(MainWindow)
+        self.actionCreateInstrument.setObjectName(_fromUtf8("actionCreateInstrument"))
+        self.actionAllocateToPortfolio = QtGui.QAction(MainWindow)
+        self.actionAllocateToPortfolio.setObjectName(_fromUtf8("actionAllocateToPortfolio"))
         self.menu_File.addAction(self.actionClose_Current)
         self.menu_File.addSeparator()
         self.menu_File.addAction(self.action_Exit)
         self.menuMaintenance.addAction(self.actionClass_List)
         self.menuMaintenance.addAction(self.actionInstrument_List)
+        self.menuMaintenance.addSeparator()
+        self.menuMaintenance.addAction(self.actionCreateInstrument)
+        self.menuMaintenance.addAction(self.actionAllocateToPortfolio)
         self.menuWindow.addAction(self.actionCascade)
         self.menuWindow.addAction(self.actionTile)
         self.menuWindow.addAction(self.actionNext)
@@ -101,4 +108,6 @@ class Ui_MainWindow(object):
         self.actionClose_All.setShortcut(_translate("MainWindow", "Ctrl+Shift+F4", None))
         self.actionClose_Current.setText(_translate("MainWindow", "&Close", None))
         self.actionClose_Current.setShortcut(_translate("MainWindow", "Ctrl+F4", None))
+        self.actionCreateInstrument.setText(_translate("MainWindow", "Create Financial Instrument", None))
+        self.actionAllocateToPortfolio.setText(_translate("MainWindow", "Allocate Instrument to &Portfolio", None))
 
