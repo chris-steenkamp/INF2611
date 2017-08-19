@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'ClassList.ui'
+# Form implementation generated from reading ui file '..\..\..\Screens\ClassList.ui'
 #
 # Created by: PyQt4 UI code generator 4.11.4
 #
@@ -28,8 +28,9 @@ class Ui_Form(object):
         Form.resize(400, 300)
         self.verticalLayout = QtGui.QVBoxLayout(Form)
         self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
-        self.treeInstrumentClasses = QtGui.QTreeView(Form)
+        self.treeInstrumentClasses = QtGui.QTreeWidget(Form)
         self.treeInstrumentClasses.setObjectName(_fromUtf8("treeInstrumentClasses"))
+        self.treeInstrumentClasses.headerItem().setText(0, _fromUtf8("1"))
         self.verticalLayout.addWidget(self.treeInstrumentClasses)
 
         self.retranslateUi(Form)

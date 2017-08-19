@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'FinancialInstrumentList.ui'
+# Form implementation generated from reading ui file '..\..\..\Screens\FinancialInstrumentList.ui'
 #
 # Created by: PyQt4 UI code generator 4.11.4
 #
@@ -28,7 +28,7 @@ class Ui_Form(object):
         Form.resize(400, 300)
         self.verticalLayout = QtGui.QVBoxLayout(Form)
         self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
-        self.lstInstruments = QtGui.QListWidget(Form)
+        self.lstInstruments = QtGui.QTableView(Form)
         self.lstInstruments.setObjectName(_fromUtf8("lstInstruments"))
         self.verticalLayout.addWidget(self.lstInstruments)
 

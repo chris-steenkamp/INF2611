@@ -35,6 +35,7 @@ class Ui_Form(object):
         self.label_4.setObjectName(_fromUtf8("label_4"))
         self.formLayout.setWidget(0, QtGui.QFormLayout.LabelRole, self.label_4)
         self.txtDate = QtGui.QDateEdit(Form)
+        self.txtDate.setCalendarPopup(True)
         self.txtDate.setObjectName(_fromUtf8("txtDate"))
         self.formLayout.setWidget(0, QtGui.QFormLayout.FieldRole, self.txtDate)
         self.label = QtGui.QLabel(Form)

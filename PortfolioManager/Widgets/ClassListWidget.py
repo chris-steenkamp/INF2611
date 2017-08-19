@@ -1,25 +1,30 @@
 from PyQt4.QtGui import *
 from Widgets.ClassList import *
-from Data.DataLayer import *
+from Models.SimpleListModel import *
+from Data.DataLayer import DataLayer
 
 class ClassListWidget(QtGui.QWidget):
     def __init__(self, parent=None):
         QtGui.QWidget.__init__(self, parent)
         self.ui = Ui_Form()
         self.ui.setupUi(self)
-        
-        self.ui.treeInstrumentClasses.setSelectionBehavior(QAbstractItemView.SelectRows)
-        model = QStandardItemModel()
-        model.setHorizontalHeaderLabels(["Class Code", "Class Name"])
-        self.ui.treeInstrumentClasses.setModel(model)
-        self.ui.treeInstrumentClasses.setUniformRowHeights(True)
-        parent = QStandardItem("FIN")
-        for i in DataLayer().getInstrumentClasses():
-            child = QStandardItem(i[1])
-            child2 = QStandardItem(i[2])
-            parent.appendRow([child, child2])
 
-        model.appendRow(parent)
+        tree = self.ui.treeInstrumentClasses
+        #data = DataLayer()
+        #model = SimpleListModel(self, data.getClasses(), data.getClassHeaders())
+        #tree.setModel(model)
+
+        tree.setHeaderLabels(DataLayer.getClassHeaders())
+        parent = QTreeWidgetItem(["FIN", "Financial Instruments"])
+        parent.addChild(QTreeWidgetItem(("CSH", "Cash", "FIN")))
+        parent.addChild(QTreeWidgetItem(("IPF", "Investment Portfolio", "FIN")))
+        parent.addChild(QTreeWidgetItem(("SHR", "Ordinary Share", "FIN")))
+        fnd = QTreeWidgetItem(("FND", "Fund", "FIN"))
+        fnd.addChild(QTreeWidgetItem(("ETF", "Exchange Traded Fund", "FND")))
+        fnd.addChild(QTreeWidgetItem(("UTR", "Unit Trust", "FND")))
+        parent.addChild(fnd)
+
+        tree.addTopLevelItem(parent)
 
     def getDialog(self, mdiArea):
         dialog = QMdiSubWindow()
