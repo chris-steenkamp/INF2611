@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '..\..\..\Screens\ClassList.ui'
+# Form implementation generated from reading ui file 'DefaultTreeViewWidget.ui'
 #
 # Created by: PyQt4 UI code generator 4.11.4
 #
@@ -28,10 +28,13 @@ class Ui_Form(object):
         Form.resize(400, 300)
         self.verticalLayout = QtGui.QVBoxLayout(Form)
         self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
-        self.treeInstrumentClasses = QtGui.QTreeWidget(Form)
-        self.treeInstrumentClasses.setObjectName(_fromUtf8("treeInstrumentClasses"))
-        self.treeInstrumentClasses.headerItem().setText(0, _fromUtf8("1"))
-        self.verticalLayout.addWidget(self.treeInstrumentClasses)
+        self.treeView = QtGui.QTreeView(Form)
+        self.treeView.setObjectName(_fromUtf8("treeView"))
+        self.verticalLayout.addWidget(self.treeView)
+        self.buttonBox = QtGui.QDialogButtonBox(Form)
+        self.buttonBox.setStandardButtons(QtGui.QDialogButtonBox.NoButton)
+        self.buttonBox.setObjectName(_fromUtf8("buttonBox"))
+        self.verticalLayout.addWidget(self.buttonBox)
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)

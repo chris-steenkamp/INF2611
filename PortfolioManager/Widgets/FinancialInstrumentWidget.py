@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '..\..\..\Screens\CreateFinancialInstrument.ui'
+# Form implementation generated from reading ui file 'FinancialInstrumentWidget.ui'
 #
 # Created by: PyQt4 UI code generator 4.11.4
 #
@@ -51,12 +51,19 @@ class Ui_Form(object):
         self.verticalLayout.addLayout(self.formLayout)
         self.buttonBox = QtGui.QDialogButtonBox(Form)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        self.buttonBox.setStandardButtons(QtGui.QDialogButtonBox.Cancel|QtGui.QDialogButtonBox.Ok)
+        self.buttonBox.setStandardButtons(QtGui.QDialogButtonBox.Discard|QtGui.QDialogButtonBox.Save)
+        self.buttonBox.setCenterButtons(False)
         self.buttonBox.setObjectName(_fromUtf8("buttonBox"))
         self.verticalLayout.addWidget(self.buttonBox)
+        self.label.setBuddy(self.txtInstrumentCode)
+        self.label_2.setBuddy(self.txtInstrumentName)
+        self.label_3.setBuddy(self.lstClassCode)
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
+        Form.setTabOrder(self.txtInstrumentCode, self.txtInstrumentName)
+        Form.setTabOrder(self.txtInstrumentName, self.lstClassCode)
+        Form.setTabOrder(self.lstClassCode, self.buttonBox)
 
     def retranslateUi(self, Form):
         Form.setWindowTitle(_translate("Form", "Form", None))

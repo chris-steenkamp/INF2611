@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '..\..\..\Screens\FinancialInstrumentList.ui'
+# Form implementation generated from reading ui file 'DefaultTableViewWidget.ui'
 #
 # Created by: PyQt4 UI code generator 4.11.4
 #
@@ -28,9 +28,13 @@ class Ui_Form(object):
         Form.resize(400, 300)
         self.verticalLayout = QtGui.QVBoxLayout(Form)
         self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
-        self.lstInstruments = QtGui.QTableView(Form)
-        self.lstInstruments.setObjectName(_fromUtf8("lstInstruments"))
-        self.verticalLayout.addWidget(self.lstInstruments)
+        self.tableView = QtGui.QTableView(Form)
+        self.tableView.setObjectName(_fromUtf8("tableView"))
+        self.verticalLayout.addWidget(self.tableView)
+        self.buttonBox = QtGui.QDialogButtonBox(Form)
+        self.buttonBox.setStandardButtons(QtGui.QDialogButtonBox.NoButton)
+        self.buttonBox.setObjectName(_fromUtf8("buttonBox"))
+        self.verticalLayout.addWidget(self.buttonBox)
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)

@@ -5,13 +5,19 @@
     <ProjectGuid>35ad89b4-796f-47c0-8169-2f35c5701d67</ProjectGuid>
     <ProjectHome>.</ProjectHome>
     <StartupFile>PortfolioManager.py</StartupFile>
-    <SearchPath>..\PortfolioManager</SearchPath>
+    <SearchPath>
+    </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <Name>PortfolioManager</Name>
     <RootNamespace>PortfolioManager</RootNamespace>
     <IsWindowsApplication>False</IsWindowsApplication>
     <InterpreterId>Global|PythonCore|3.4-32</InterpreterId>
+    <LaunchProvider>Standard Python launcher</LaunchProvider>
+    <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
+    <Environment>
+    </Environment>
+    <CommandLineArguments>--init</CommandLineArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -22,34 +28,33 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Data.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Data\DatabaseSetup.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Data\DataLayer.py" />
-    <Compile Include="Models\SimpleListModel.py">
+    <Compile Include="Models.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Widgets\AllocateFinancialInstrument.py" />
-    <Compile Include="Widgets\AllocateFinancialInstrumentWidget.py" />
-    <Compile Include="Widgets\ClassListWidget.py">
+    <Compile Include="Widgets\DefaultTreeViewWidget.py" />
+    <Compile Include="Widgets\FinancialInstrumentWidget.py" />
+    <Compile Include="Widgets\InstrumentAllocationWidget.py" />
+    <Compile Include="Widgets\__init__.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Forms\MainForm.py" />
+    <Compile Include="Widgets\DefaultTableViewWidget.py" />
+    <Compile Include="Widgets\MainForm.py" />
     <Compile Include="PortfolioManager.py" />
-    <Compile Include="Widgets\ClassList.py" />
-    <Compile Include="Widgets\CreateFinancialInstrument.py" />
-    <Compile Include="Widgets\CreateFinancialInstrumentWidget.py" />
-    <Compile Include="Widgets\FinancialInstrumentList.py" />
-    <Compile Include="Widgets\FinancialInstrumentListWidget.py" />
-    <Compile Include="Widgets\test.py" />
+    <Compile Include="Dialogs.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Data\" />
-    <Folder Include="Data\__pycache__\" />
-    <Folder Include="Forms\" />
-    <Folder Include="Models\" />
+    <Folder Include="Data2\" />
     <Folder Include="Widgets\" />
     <Folder Include="Widgets\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Data\__pycache__\DataLayer.cpython-34.pyc" />
   </ItemGroup>
   <ItemGroup>
     <InterpreterReference Include="Global|PythonCore|3.4-32" />

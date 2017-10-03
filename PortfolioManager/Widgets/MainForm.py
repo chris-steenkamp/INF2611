@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '..\..\..\Screens\MainForm.ui'
+# Form implementation generated from reading ui file 'MainForm.ui'
 #
 # Created by: PyQt4 UI code generator 4.11.4
 #
@@ -69,11 +69,17 @@ class Ui_MainWindow(object):
         self.actionCreateInstrument.setObjectName(_fromUtf8("actionCreateInstrument"))
         self.actionAllocateToPortfolio = QtGui.QAction(MainWindow)
         self.actionAllocateToPortfolio.setObjectName(_fromUtf8("actionAllocateToPortfolio"))
+        self.actionInvestment_Holdings = QtGui.QAction(MainWindow)
+        self.actionInvestment_Holdings.setObjectName(_fromUtf8("actionInvestment_Holdings"))
+        self.actionInstrument_Prices = QtGui.QAction(MainWindow)
+        self.actionInstrument_Prices.setObjectName(_fromUtf8("actionInstrument_Prices"))
         self.menu_File.addAction(self.actionClose_Current)
         self.menu_File.addSeparator()
         self.menu_File.addAction(self.action_Exit)
         self.menuMaintenance.addAction(self.actionClass_List)
         self.menuMaintenance.addAction(self.actionInstrument_List)
+        self.menuMaintenance.addAction(self.actionInvestment_Holdings)
+        self.menuMaintenance.addAction(self.actionInstrument_Prices)
         self.menuMaintenance.addSeparator()
         self.menuMaintenance.addAction(self.actionCreateInstrument)
         self.menuMaintenance.addAction(self.actionAllocateToPortfolio)
@@ -110,4 +116,6 @@ class Ui_MainWindow(object):
         self.actionClose_Current.setShortcut(_translate("MainWindow", "Ctrl+F4", None))
         self.actionCreateInstrument.setText(_translate("MainWindow", "Create Financial Instrument", None))
         self.actionAllocateToPortfolio.setText(_translate("MainWindow", "Allocate Instrument to &Portfolio", None))
+        self.actionInvestment_Holdings.setText(_translate("MainWindow", "Investment &Holdings", None))
+        self.actionInstrument_Prices.setText(_translate("MainWindow", "Instrument &Prices", None))
 
