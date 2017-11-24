@@ -1,20 +1,23 @@
+'''Contains all dialogs of the application'''
 from PyQt4 import QtGui, QtCore, QtSql
-from Data import *
-from Widgets import *
-from Models import *
+from Data import DatabaseSetup, DataLayer
+from Widgets import DefaultTableViewWidget, DefaultTreeViewWidget
+from Widgets import FinancialInstrumentWidget, InstrumentAllocationWidget, MainFormWidget
+from Models import SqlTreeModel
 
 class MyForm(QtGui.QMainWindow):
+    '''The main form of the application'''
     def __init__(self, parent=None):
         QtGui.QWidget.__init__(self, parent)
         self.ui = MainFormWidget()
         self.ui.setupUi(self)
 
-        self.ui.actionClass_List.triggered.connect(self.showClasses)
-        self.ui.actionInstrument_List.triggered.connect(self.showInstruments)
-        self.ui.actionInvestment_Holdings.triggered.connect(self.showInvestments)
-        self.ui.actionCreateInstrument.triggered.connect(self.createInstruments)
-        self.ui.actionAllocateToPortfolio.triggered.connect(self.allocateInstruments)
-        self.ui.actionInstrument_Prices.triggered.connect(self.showPrices)
+        self.ui.actionClass_List.triggered.connect(self.show_classes)
+        self.ui.actionInstrument_List.triggered.connect(self.show_instruments)
+        self.ui.actionInvestment_Holdings.triggered.connect(self.show_investments)
+        self.ui.actionCreateInstrument.triggered.connect(self.create_instruments)
+        self.ui.actionAllocateToPortfolio.triggered.connect(self.allocate_instruments)
+        self.ui.actionInstrument_Prices.triggered.connect(self.show_prices)
 
         self.ui.actionCascade.triggered.connect(self.ui.mdiArea.cascadeSubWindows)
         self.ui.actionTile.triggered.connect(self.ui.mdiArea.tileSubWindows)
@@ -25,39 +28,47 @@ class MyForm(QtGui.QMainWindow):
 
         self.setWindowTitle("Portfolio Manager")
 
-    def showClasses(self):
-        ClassListDialog.showDialog(self.ui.mdiArea)
+    def show_classes(self):
+        '''Show the list of classes'''
+        ClassListDialog.show_dialog(self.ui.mdiArea)
 
-    def showInstruments(self):
-        FinancialInstrumentListDialog.showDialog(self.ui.mdiArea)
+    def show_instruments(self):
+        '''Show the list of instruments'''
+        FinancialInstrumentListDialog.show_dialog(self.ui.mdiArea)
 
-    def showInvestments(self):
-        InvestmentHoldingsDialog.showDialog(self.ui.mdiArea)
+    def show_investments(self):
+        '''Show current investments'''
+        InvestmentHoldingsDialog.show_dialog(self.ui.mdiArea)
 
-    def createInstruments(self):
-        FinancialInstrumentDialog.showDialog(self.ui.mdiArea)
-    
-    def allocateInstruments(self):
-        InstrumentAllocationDialog.showDialog(self.ui.mdiArea)
+    def create_instruments(self):
+        '''Create a new instrument'''
+        FinancialInstrumentDialog.show_dialog(self.ui.mdiArea)
 
-    def showPrices(self):
-        InstrumentPricingDialog.showDialog(self.ui.mdiArea)
+    def allocate_instruments(self):
+        '''Allocate an instrument'''
+        InstrumentAllocationDialog.show_dialog(self.ui.mdiArea)
+
+    def show_prices(self):
+        '''Show list of prices'''
+        InstrumentPricingDialog.show_dialog(self.ui.mdiArea)
 
 class BaseDialog(QtGui.QDialog):
-    def __init__(self, ui, parent, title):
+    '''Represents the base of all other dialogs and provides
+    static methods for showing a new dalog'''
+    def __init__(self, interface, parent, title):
         QtGui.QDialog.__init__(self, parent)
 
-        self.ui = ui
-        self.ui.setupUi(self)
+        self.interface = interface
+        self.interface.setupUi(self)
 
         self.parent = parent
-        if type(self.parent) is QtGui.QMdiArea:
+        if  isinstance(self.parent, QtGui.QMdiArea):
             self.dialog = QtGui.QMdiSubWindow()
             self.dialog.setWidget(self)
             self.parent.addSubWindow(self.dialog)
         else:
             self.dialog = self
-        
+
         self.dialog.setWindowTitle(title)
         self.accepted.connect(self.__accept)
         self.rejected.connect(self.__reject)
@@ -68,7 +79,7 @@ class BaseDialog(QtGui.QDialog):
     def __reject(self):
         self.close()
 
-    def closeEvent(self, event):
+    def close_event(self, event):
         if type(self.parent) is QtGui.QMdiArea:
             self.parent.removeSubWindow(self.dialog)
 
@@ -77,9 +88,9 @@ class BaseDialog(QtGui.QDialog):
         self.destroy()
 
     @staticmethod
-    def showDialog(baseDialog):
-        dialog = baseDialog.dialog
-        if type(baseDialog.parent) is QtGui.QMdiArea:
+    def show_dialog(base_dialog):
+        dialog = base_dialog.dialog
+        if type(base_dialog.parent) is QtGui.QMdiArea:
             return dialog.show()
         else:
             return dialog.exec_()
@@ -104,13 +115,13 @@ class FinancialInstrumentDialog(BaseDialog):
 
         self.mapper.setItemDelegate(QtSql.QSqlRelationalDelegate(self))
 
-        self.mapper.addMapping(self.ui.txtInstrumentCode, self.model.fieldIndex("code"))
-        self.mapper.addMapping(self.ui.txtInstrumentName, self.model.fieldIndex("name"))
-        self.mapper.addMapping(self.ui.lstClassCode, classCdIndex)
+        self.mapper.addMapping(self.interface.txtInstrumentCode, self.model.fieldIndex("code"))
+        self.mapper.addMapping(self.interface.txtInstrumentName, self.model.fieldIndex("name"))
+        self.mapper.addMapping(self.interface.lstClassCode, classCdIndex)
 
         relationModel = self.model.relationModel(classCdIndex)
-        self.ui.lstClassCode.setModel(relationModel)
-        self.ui.lstClassCode.setModelColumn(relationModel.fieldIndex("name"))
+        self.interface.lstClassCode.setModel(relationModel)
+        self.interface.lstClassCode.setModelColumn(relationModel.fieldIndex("name"))
 
         if activeRecord == -1:
             row = self.model.rowCount()
@@ -119,8 +130,8 @@ class FinancialInstrumentDialog(BaseDialog):
         else:
             self.mapper.setCurrentIndex(activeRecord)
 
-        self.ui.buttonBox.button(QtGui.QDialogButtonBox.Save).clicked.connect(self.saveChanges)
-        self.ui.buttonBox.button(QtGui.QDialogButtonBox.Discard).clicked.connect(self.discardChanges)
+        self.interface.buttonBox.button(QtGui.QDialogButtonBox.Save).clicked.connect(self.saveChanges)
+        self.interface.buttonBox.button(QtGui.QDialogButtonBox.Discard).clicked.connect(self.discardChanges)
 
     def saveChanges(self):
         self.mapper.submit()
@@ -131,8 +142,8 @@ class FinancialInstrumentDialog(BaseDialog):
         self.reject()
 
     @staticmethod
-    def showDialog(parent = None, activeRecord = -1, title = "Create New Financial Instrument"):
-        return BaseDialog.showDialog(FinancialInstrumentDialog(parent, activeRecord, title))
+    def show_dialog(parent = None, activeRecord = -1, title = "Create New Financial Instrument"):
+        return BaseDialog.show_dialog(FinancialInstrumentDialog(parent, activeRecord, title))
 
 class FinancialInstrumentListDialog(BaseDialog):
     def __init__(self, parent, title):
@@ -142,31 +153,31 @@ class FinancialInstrumentListDialog(BaseDialog):
         self.model.setTable("financial_instrument")
 
         self.model.setEditStrategy(QtSql.QSqlTableModel.OnManualSubmit)
-        self.ui.tableView.setModel(self.model)
+        self.interface.tableView.setModel(self.model)
         self.model.select()
 
-        self.ui.buttonBox.setStandardButtons(QtGui.QDialogButtonBox.Save|QtGui.QDialogButtonBox.Ok)
+        self.interface.buttonBox.setStandardButtons(QtGui.QDialogButtonBox.Save|QtGui.QDialogButtonBox.Ok)
 
-        self.ui.buttonBox.button(QtGui.QDialogButtonBox.Save).clicked.connect(self.editCurrent)
-        self.ui.buttonBox.button(QtGui.QDialogButtonBox.Save).setText("&Edit")
+        self.interface.buttonBox.button(QtGui.QDialogButtonBox.Save).clicked.connect(self.edit_current)
+        self.interface.buttonBox.button(QtGui.QDialogButtonBox.Save).setText("&Edit")
 
-        self.ui.buttonBox.button(QtGui.QDialogButtonBox.Ok).clicked.connect(self.addNew)
-        self.ui.buttonBox.button(QtGui.QDialogButtonBox.Ok).setText("Add &New")
+        self.interface.buttonBox.button(QtGui.QDialogButtonBox.Ok).clicked.connect(self.add_new)
+        self.interface.buttonBox.button(QtGui.QDialogButtonBox.Ok).setText("Add &New")
 
-    def editCurrent(self):
-        current = self.ui.tableView.currentIndex()
+    def edit_current(self):
+        current = self.interface.tableView.currentIndex()
         row = current.row()
 
-        if row >= 0 and FinancialInstrumentDialog.showDialog(activeRecord = row, title = "Edit Financial Instruments") == QDialog.Accepted:
+        if row >= 0 and FinancialInstrumentDialog.show_dialog(activeRecord = row, title = "Edit Financial Instruments") == QtGui.QDialog.Accepted:
             self.model.select()
 
-    def addNew(self):
-        if FinancialInstrumentDialog.showDialog(activeRecord = -1, title = "Create New Financial Instruments") == QDialog.Accepted:
+    def add_new(self):
+        if FinancialInstrumentDialog.show_dialog(activeRecord = -1, title = "Create New Financial Instruments") == QtGui.QDialog.Accepted:
             self.model.select()
 
     @staticmethod
-    def showDialog(parent, title =  "View All Financial Instruments"):
-        return BaseDialog.showDialog(FinancialInstrumentListDialog(parent, title))
+    def show_dialog(parent, title =  "View All Financial Instruments"):
+        return BaseDialog.show_dialog(FinancialInstrumentListDialog(parent, title))
 
 class InstrumentAllocationDialog(BaseDialog):
     def __init__(self, parent, activeRecord, title):
@@ -191,22 +202,22 @@ class InstrumentAllocationDialog(BaseDialog):
 
         self.mapper.setItemDelegate(QtSql.QSqlRelationalDelegate(self))
 
-        self.mapper.addMapping(self.ui.txtDate, self.model.fieldIndex("start_date"))
-        self.mapper.addMapping(self.ui.txtUnits, self.model.fieldIndex("units_held"))
+        self.mapper.addMapping(self.interface.txtDate, self.model.fieldIndex("start_date"))
+        self.mapper.addMapping(self.interface.txtUnits, self.model.fieldIndex("units_held"))
 
-        self.mapper.addMapping(self.ui.lstPortfolios, portfolioIndex)
-        self.mapper.addMapping(self.ui.lstInstruments, instrumentIndex)
+        self.mapper.addMapping(self.interface.lstPortfolios, portfolioIndex)
+        self.mapper.addMapping(self.interface.lstInstruments, instrumentIndex)
 
         instrumentRelationModel = self.model.relationModel(instrumentIndex)
-        self.ui.lstInstruments.setModel(instrumentRelationModel)
-        self.ui.lstInstruments.setModelColumn(instrumentRelationModel.fieldIndex("name"))
+        self.interface.lstInstruments.setModel(instrumentRelationModel)
+        self.interface.lstInstruments.setModelColumn(instrumentRelationModel.fieldIndex("name"))
 
         portfolioRelationModel = self.model.relationModel(portfolioIndex)
-        self.ui.lstPortfolios.setModel(portfolioRelationModel)
-        self.ui.lstPortfolios.setModelColumn(portfolioRelationModel.fieldIndex("name"))
+        self.interface.lstPortfolios.setModel(portfolioRelationModel)
+        self.interface.lstPortfolios.setModelColumn(portfolioRelationModel.fieldIndex("name"))
 
-        self.ui.buttonBox.button(QtGui.QDialogButtonBox.Save).clicked.connect(self.saveChanges)
-        self.ui.buttonBox.button(QtGui.QDialogButtonBox.Discard).clicked.connect(self.discardChanges)
+        self.interface.buttonBox.button(QtGui.QDialogButtonBox.Save).clicked.connect(self.saveChanges)
+        self.interface.buttonBox.button(QtGui.QDialogButtonBox.Discard).clicked.connect(self.discardChanges)
 
         if activeRecord == -1:
             row = self.model.rowCount()
@@ -224,19 +235,19 @@ class InstrumentAllocationDialog(BaseDialog):
         self.reject()
 
     @staticmethod
-    def showDialog(parent = None, activeRecord = -1, title = "Allocate Financial Instrument"):
-        BaseDialog.showDialog(InstrumentAllocationDialog(parent, activeRecord, title))
+    def show_dialog(parent = None, activeRecord = -1, title = "Allocate Financial Instrument"):
+        BaseDialog.show_dialog(InstrumentAllocationDialog(parent, activeRecord, title))
 
 class ClassListDialog(BaseDialog):
     def __init__(self, parent, title):
         BaseDialog.__init__(self, DefaultTreeViewWidget(), parent, title)
 
         self.model = SqlTreeModel(self, DataLayer.getClassHeaders(), 'instrument_class', 'FIN')
-        self.ui.treeView.setModel(self.model)
+        self.interface.treeView.setModel(self.model)
 
     @staticmethod
-    def showDialog(parent, title = "View Instrument Classes"):
-        return BaseDialog.showDialog(ClassListDialog(parent, title))
+    def show_dialog(parent, title = "View Instrument Classes"):
+        return BaseDialog.show_dialog(ClassListDialog(parent, title))
 
 class InvestmentHoldingsDialog(BaseDialog):
     def __init__(self, parent, title):
@@ -247,60 +258,60 @@ class InvestmentHoldingsDialog(BaseDialog):
         self.model.setEditStrategy(QtSql.QSqlTableModel.OnManualSubmit)
         self.model.select()
 
-        self.ui.tableView.setModel(self.model)
+        self.interface.tableView.setModel(self.model)
 
-        self.ui.buttonBox.setStandardButtons(QtGui.QDialogButtonBox.Save|QtGui.QDialogButtonBox.Ok|QtGui.QDialogButtonBox.Cancel)
+        self.interface.buttonBox.setStandardButtons(QtGui.QDialogButtonBox.Save|QtGui.QDialogButtonBox.Ok|QtGui.QDialogButtonBox.Cancel)
 
-        self.ui.buttonBox.button(QtGui.QDialogButtonBox.Save).clicked.connect(self.editCurrent)
-        self.ui.buttonBox.button(QtGui.QDialogButtonBox.Save).setText("&Edit Selected")
+        self.interface.buttonBox.button(QtGui.QDialogButtonBox.Save).clicked.connect(self.edit_current)
+        self.interface.buttonBox.button(QtGui.QDialogButtonBox.Save).setText("&Edit Selected")
 
-        self.ui.buttonBox.button(QtGui.QDialogButtonBox.Ok).clicked.connect(self.addNew)
-        self.ui.buttonBox.button(QtGui.QDialogButtonBox.Ok).setText("Add &New")
+        self.interface.buttonBox.button(QtGui.QDialogButtonBox.Ok).clicked.connect(self.add_new)
+        self.interface.buttonBox.button(QtGui.QDialogButtonBox.Ok).setText("Add &New")
 
-        self.ui.buttonBox.button(QtGui.QDialogButtonBox.Cancel).clicked.connect(self.deleteCurrent)
-        self.ui.buttonBox.button(QtGui.QDialogButtonBox.Cancel).setText("&Delete Selected")
+        self.interface.buttonBox.button(QtGui.QDialogButtonBox.Cancel).clicked.connect(self.delete_current)
+        self.interface.buttonBox.button(QtGui.QDialogButtonBox.Cancel).setText("&Delete Selected")
 
-    def editCurrent(self):
-        row = self.ui.tableView.currentIndex().row()
+    def edit_current(self):
+        row = self.interface.tableView.currentIndex().row()
 
-        if row >= 0 and InstrumentAllocationDialog.showDialog(activeRecord = row, title = "Edit Current Position") == QDialog.Accepted:
+        if row >= 0 and InstrumentAllocationDialog.show_dialog(activeRecord = row, title = "Edit Current Position") == QtGui.QDialog.Accepted:
             self.model.select()
 
-    def addNew(self):
-        if InstrumentAllocationDialog.showDialog(activeRecord = -1, title = "Create New Instrument Allocation") == QDialog.Accepted:
+    def add_new(self):
+        if InstrumentAllocationDialog.show_dialog(activeRecord = -1, title = "Create New Instrument Allocation") == QtGui.QDialog.Accepted:
             self.model.select()
 
-    def deleteCurrent(self):
-        index = self.ui.tableView.currentIndex().row()
+    def delete_current(self):
+        index = self.interface.tableView.currentIndex().row()
 
-        if index >= 0 and YesNoMessageBox(self, 'Delete Record?', 'Are you sure you want to delete this entry from the database?').exec_() == QMessageBox.Yes:
+        if index >= 0 and YesNoMessageBox(self, 'Delete Record?', 'Are you sure you want to delete this entry from the database?').exec_() == QtGui.QMessageBox.Yes:
             self.model.removeRow(index)
             self.model.submitAll()
             self.model.select()
 
     @staticmethod
-    def showDialog(parent, title =  "View Instrument Allocations"):
-        return BaseDialog.showDialog(InvestmentHoldingsDialog(parent, title))
+    def show_dialog(parent, title =  "View Instrument Allocations"):
+        return BaseDialog.show_dialog(InvestmentHoldingsDialog(parent, title))
 
 class InstrumentPricingDialog(BaseDialog):
     def __init__(self, parent, title):
         BaseDialog.__init__(self, DefaultTableViewWidget(), parent, title)
-        
+       
         self.model = QtSql.QSqlTableModel(self)
         self.model.setTable("instrument_valuation")
         self.model.setEditStrategy(QtSql.QSqlTableModel.OnManualSubmit)
         self.model.select()
 
-        self.ui.tableView.setModel(self.model)
+        self.interface.tableView.setModel(self.model)
 
-        self.ui.buttonBox.setStandardButtons(QtGui.QDialogButtonBox.NoButton)
+        self.interface.buttonBox.setStandardButtons(QtGui.QDialogButtonBox.NoButton)
 
     @staticmethod
-    def showDialog(parent, title =  "View Instrument Price History"):
-        return BaseDialog.showDialog(InstrumentPricingDialog(parent, title))
+    def show_dialog(parent, title =  "View Instrument Price History"):
+        return BaseDialog.show_dialog(InstrumentPricingDialog(parent, title))
 
-class YesNoMessageBox(QMessageBox):
-    def __init__(self, parent, title, text, icon = QMessageBox.Question, buttons = QMessageBox.Yes | QMessageBox.No):
+class YesNoMessageBox(QtGui.QMessageBox):
+    def __init__(self, parent, title, text, icon = QtGui.QMessageBox.Question, buttons = QtGui.QMessageBox.Yes | QtGui.QMessageBox.No):
         QMessageBox.__init__(self, parent)
 
         self.setIcon(icon)

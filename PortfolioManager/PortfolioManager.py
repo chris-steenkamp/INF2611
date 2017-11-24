@@ -1,22 +1,22 @@
+'''Main '''
 import sys
-from PyQt4.QtGui import *
-from Data import *
-from Dialogs import *
+from PyQt4 import QtGui
+from Data import DatabaseSetup, DataLayer
+from Dialogs import MyForm
 
 if __name__ == "__main__":
-    app = QtGui.QApplication(sys.argv)
+    APP = QtGui.QApplication(sys.argv)
 
     try:
         if sys.argv.index("--init") > 0:
             DatabaseSetup.populateData()
-            pass
-    except ValueError as e:
-        print("Assuming DB is populated %s" %e)
+    except ValueError as ex:
+        print("Assuming DB is populated %s" %ex)
 
     if not DataLayer.openConnection():
         sys.exit(1)
 
-    window = MyForm()
-    window.show()
+    WINDOW = MyForm()
+    WINDOW.show()
 
-    sys.exit(app.exec_())
+    sys.exit(APP.exec_())
